@@ -1,28 +1,30 @@
-import { Order } from "./entity/Order"
-import { Customer } from "./entity/Customer"
+import { Photo } from "./entity/Photo"
+import { User } from "./entity/User"
 import { AppDataSource } from "./data-source"
 
 AppDataSource.initialize()
 .then(async () => {
-    const customer = new Customer();
-customer.name = "John Smith";
-    await AppDataSource.manager.save(customer);
+    const user = new User()
+    user.name = "Leo"
+    await AppDataSource.manager.save(user)
 
-    const order1 = new Order();
-    order1.orderNumber = "12345";
-    order1.customer = customer;
-    await AppDataSource.manager.save(order1);
+    const photo1 = new Photo()
+    photo1.url = "me.jpg"
+    photo1.user = user
+    await AppDataSource.manager.save(photo1)
 
-    const order2 = new Order();
-    order2.orderNumber = "67890";
-    order2.customer = customer;
-    await AppDataSource.manager.save(order2);
+    const photo2 = new Photo()
+    photo2.url = "me-and-bears.jpg"
+    photo2.user = user
+    await AppDataSource.manager.save(photo2)
 
-    const order3 = new Order();
-    order3.orderNumber = "54321";
-    order3.customer = customer;
-    await AppDataSource.manager.save(order3);
-
-
+    const userRepository = AppDataSource.getRepository(User)
+    const users = await userRepository.find({
+    relations: {
+        photos: true,
+    },
+    })
+    console.log("Users: ", users);
+    
 })
 .catch((error) => console.log("Error: ", error))
