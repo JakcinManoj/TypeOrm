@@ -1,31 +1,24 @@
+import { Post } from "./entity/Post"
+import { Category } from "./entity/Category"
 import { AppDataSource } from "./data-source"
-import { User } from "./entity/User"
-import { Profile } from "./entity/Profile"
 
-AppDataSource.initialize().then(async () => {
+AppDataSource.initialize()
+.then(async () => {
+    const category1 = new Category()
+    category1.name = "TypeScript"
+    await AppDataSource.manager.save(category1)
 
-    console.log("Inserting a new user into the database...")
-    const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
-    user.age = 25
+    const category2 = new Category()
+    category2.name = "Programming"
+    await AppDataSource.manager.save(category2)
 
-    const profile = new Profile()
-    profile.name = "username1"
+    const post = new Post()
+    post.title = "TypeScript"
+    post.text = `TypeScript is Awesome!`
+    post.categories = [category1, category2]
 
-    const userRepository = AppDataSource.getRepository(User)
-    const profileRepository = AppDataSource.getRepository(Profile)
+    await AppDataSource.manager.save(post)
 
-    await userRepository.save(user)
-    console.log("user saved");
-
-    await profileRepository.save(profile)
-    
-    console.log("User details:")
-console.log(user)
-
-console.log("Profile details:")
-console.log(profile)
-
-
-}).catch(error => console.log(error))
+    console.log("Post has been saved: ", post)
+})
+.catch((error) => console.log("Error: ", error))
