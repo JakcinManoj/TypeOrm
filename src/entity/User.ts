@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm"
+import { Profile } from "./Profile"
 
 @Entity()
 export class User {
@@ -15,4 +16,11 @@ export class User {
     @Column()
     age: number
 
-}
+    @OneToOne(() => Profile, (profile) => profile.user, { 
+    cascade: true,
+    })  
+    profile: Profile
+
+
+
+    }

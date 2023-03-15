@@ -1,31 +1,31 @@
 import { AppDataSource } from "./data-source"
-import { Photo } from "./entity/Photo"
-import { PhotoMetadata } from "./entity/PhotoMetadata"
-
+import { User } from "./entity/User"
+import { Profile } from "./entity/Profile"
 
 AppDataSource.initialize().then(async () => {
-    console.log("Inserting a new photo into the database...")
-    const photo = new Photo()
-    photo.name = "Me and Bears"
-    photo.description = "I am near polar bears"
-    photo.filename = "photo-with-bears.jpg"
-    photo.views = 1
-    photo.isPublished = true
 
-    console.log("Inserting a New dataBase ....");
-    const photoMetadata = new PhotoMetadata()
-    photoMetadata.height = 640
-    photoMetadata.width = 480
-    photoMetadata.compressed = true
-    photoMetadata.comment = "cybershoot"
-    photoMetadata.orientation = "portait"
-    photoMetadata.photo = photo // we connect them through this
+    console.log("Inserting a new user into the database...")
+    const user = new User()
+    user.firstName = "Timber"
+    user.lastName = "Saw"
+    user.age = 25
+
+    const profile = new Profile()
+    profile.name = "username1"
+
+    const userRepository = AppDataSource.getRepository(User)
+    const profileRepository = AppDataSource.getRepository(Profile)
+
+    await userRepository.save(user)
+    console.log("user saved");
+
+    await profileRepository.save(profile)
     
-    const photoRepository = AppDataSource.getRepository(Photo)
-    const metadataRepository = AppDataSource.getRepository(PhotoMetadata)
+    console.log("User details:")
+console.log(user)
 
-    await photoRepository.save(photo)
-    await metadataRepository.save(photoMetadata)
+console.log("Profile details:")
+console.log(profile)
+
 
 }).catch(error => console.log(error))
-
