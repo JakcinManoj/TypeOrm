@@ -6,8 +6,8 @@ AppDataSource.initialize().then(async () => {
 
     console.log("Inserting a new user into the database...")
     const user = new User()
-    user.firstName = "Timber"
-    user.lastName = "Saw"
+    user.firstName = "Jakcin"
+    user.lastName = "Manoj"
     user.age = 25
 
     const profile = new Profile()
