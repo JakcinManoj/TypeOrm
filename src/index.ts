@@ -1,24 +1,28 @@
-import { Post } from "./entity/Post"
-import { Category } from "./entity/Category"
+import { Order } from "./entity/Order"
+import { Customer } from "./entity/Customer"
 import { AppDataSource } from "./data-source"
 
 AppDataSource.initialize()
 .then(async () => {
-    const category1 = new Category()
-    category1.name = "TypeScript"
-    await AppDataSource.manager.save(category1)
+    const customer = new Customer();
+customer.name = "John Smith";
+    await AppDataSource.manager.save(customer);
 
-    const category2 = new Category()
-    category2.name = "Programming"
-    await AppDataSource.manager.save(category2)
+    const order1 = new Order();
+    order1.orderNumber = "12345";
+    order1.customer = customer;
+    await AppDataSource.manager.save(order1);
 
-    const post = new Post()
-    post.title = "TypeScript"
-    post.text = `TypeScript is Awesome!`
-    post.categories = [category1, category2]
+    const order2 = new Order();
+    order2.orderNumber = "67890";
+    order2.customer = customer;
+    await AppDataSource.manager.save(order2);
 
-    await AppDataSource.manager.save(post)
+    const order3 = new Order();
+    order3.orderNumber = "54321";
+    order3.customer = customer;
+    await AppDataSource.manager.save(order3);
 
-    console.log("Post has been saved: ", post)
+
 })
 .catch((error) => console.log("Error: ", error))
