@@ -7,7 +7,7 @@ export class Address {
     id: number
 
     @Column()
-    Address: string
+    url: string
 
     @ManyToOne(() => User, (user) => user.addresses)
     user: User

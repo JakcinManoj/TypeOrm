@@ -19,31 +19,11 @@ AppDataSource.initialize()
     photo2.user = user
     await AppDataSource.manager.save(photo2)
 
-    const address1 = new Address()
-    address1.Address = "123 Main St"
-    address1.user = user
-    await AppDataSource.manager.save(address1)
-
     const userRepository = AppDataSource.getRepository(User)
     const users = await userRepository.find({
     relations: {
         photos: true,
     },
-    })
-    console.log("Users: ", users);
-
-    const photoRepository = AppDataSource.getRepository(Photo)
-    const photos = await photoRepository.find({
-    relations: {
-        user: true,
-    },
-})
-console.log("Photos: ", photos);
-const addressRepository = AppDataSource.getRepository(Address)
-const addresses = await addressRepository.find({
-    relations: {
-        user: true,
-    }
 })
 })
 .catch((error) => console.log("Error: ", error))
