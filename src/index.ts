@@ -1,6 +1,7 @@
 import { Question } from "./entity/Question"
 import { Category } from "./entity/Category"
 import { AppDataSource } from "./data-source"
+const { Post } = require("./entity/Post")
 
 AppDataSource.initialize()
 .then(async () => {
@@ -17,12 +18,14 @@ AppDataSource.initialize()
     question.text = `TypeScript is Awesome!`
     question.categories = [category1, category2]
 
+    const post = new Post()
+    post.title = "TypeScript"
+    post.text = `TypeScript is Awesome!`
+    post.categories = [category1, category2]
+
+    await AppDataSource.manager.save(post)
     await AppDataSource.manager.save(question)
-    const categoriesWithQuestions = await AppDataSource
-    .getRepository(Category)
-    .createQueryBuilder("category")
-    .leftJoinAndSelect("category.questions", "question")
-    .getMany()
+    
 
     console.log("Question has been saved: ", question)
 })
